@@ -67,9 +67,12 @@
 		           AmbilData = data.user;
 		           $.each(AmbilData, function(index, load) {
 		           		// console.log(load.username);		           		
-		           		document.cookie="username="+load.username;		
-		           		document.cookie="name="+load.name;		
-		           		document.cookie="idcl="+load.id_client;
+		           		// document.cookie="username="+load.username;		
+		           		// document.cookie="name="+load.name;		
+		           		// document.cookie="idcl="+load.id_client;
+		           	window.localStorage.setItem("username", load.username);
+                		window.localStorage.setItem("name", load.name);          
+                		window.localStorage.setItem("idcl", load.id_client);   
 		           });
 		           // document.location = "home.php";
 				        window.location.href = "home.html";
