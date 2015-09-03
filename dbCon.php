@@ -10,9 +10,9 @@ public $koneksi;
 
 	function __construct()
 	{
-		$this->host="124.81.89.42";
-		$this->user="raider";
-		$this->pass="asismart2015";
+		$this->host="";
+		$this->user="";
+		$this->pass="";
 		$this->koneksi=mysql_connect($this->host,$this->user,$this->pass);
 		if(!$this->koneksi)
 		{
