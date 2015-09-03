@@ -2,11 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>AdminLTE 2 | Log in</title>
+    <title>SMART APP LOGIN</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
+    <icon src="icon.png" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" /> 
@@ -21,14 +22,14 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="index2.html"><b>SMART</b>App</a>
+        <a href="#"><b>SMART</b>App</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p> 
         <form action="" method="get">
           <div class="form-group has-feedback">
-            <input type="text" id="name_" name="name_" class="form-control" placeholder="Email"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <input type="text" id="name_" name="name_" class="form-control" placeholder="Username"/>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
             <input type="password" id="pass_" name="pass_" class="form-control" placeholder="Password"/>
@@ -53,8 +54,6 @@
     $(function () {
 
       	$('form').on('submit',function(e){
-      		// $('#name_').val();
-      		// $('#pass_').val();
 		    e.preventDefault();
 		    $.ajax({
 		    	url 	: "http://124.81.89.42/smart_gap/c_login.php",
@@ -62,37 +61,41 @@
 		        dataType : 'json',
 		        cache    : false, 
 		        data     : $(this).serialize(),
-		        success  : function(data) {
-               $('.login-box-msg').html('Login Success');
-		           AmbilData = data.user;
-		           $.each(AmbilData, function(index, load) {
-		           		// console.log(load.username);		           		
-		           		// document.cookie="username="+load.username;		
-		           		// document.cookie="name="+load.name;		
-		           		// document.cookie="idcl="+load.id_client;
-		           	window.localStorage.setItem("username", load.username);
-                		window.localStorage.setItem("name", load.name);          
-                		window.localStorage.setItem("idcl", load.id_client);   
-		           });
-		           // document.location = "home.php";
-				        window.location.href = "home.html";
+            beforeSend: function( xhr ) {
+               $('.login-box-msg').html('<i class="fa fa-refresh fa-spin"></i> &nbsp; Please wait..');
+            },
+		        success  : function(data) {   
+               if(data.user!=null){ 
+                  $('.login-box-msg').html('<div class="alert bg-green disabled color-palette"> <i class="fa fa-refresh fa-spin"></i> Login Success, please wait..</div>');           
+                  setTimeout(function() {
+                      redirect(data.user);
+                  }, 2000);
+               }else{
+                  $('.login-box-msg').html('Wrong username / Password');
+               }
 		           // alert();
-
 		        },
             error : function (xhr, ajaxOptions, thrownError) {
-                $('.login-box-msg').html('Wrong username / Password');
+                $('.login-box-msg').html('Connection problem');
             }
 		    });
 		}); 
 
+
     }); 
 
- //   function setCookie(cname, cvalue, exdays) {
-	//     var d = new Date();
-	//     d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	//     var expires = "expires="+d.toUTCString();
-	//     document.cookie = cname + "=" + cvalue + "; " + expires;
-	// }
+    // function dimulai
+
+    function redirect(data){
+        AmbilData = data;
+        $.each(AmbilData, function(index, load) {
+            // console.log(load.username);  
+            localStorage.username = load.username;
+            localStorage.setItem("name", load.name);          
+            localStorage.setItem("idcl", load.id_client);    
+        });
+        window.location.href = "home.html";
+    }
 
     </script>
   </body>
